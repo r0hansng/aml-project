@@ -1,5 +1,15 @@
 # AML Project
 
+## Dataset
+
+The `data/` directory contains the official Universal Dependencies English EWT
+train, development, and test splits. The original sentence boundaries and
+annotations are preserved.
+
+Source repository: <https://github.com/UniversalDependencies/UD_English-EWT>
+
+Dataset revision: `4a4d77f599ea53cc405f85d0cec4b2f14f81d42b` (`r2.18-11-g4a4d77f5`)
+
 ## Prerequisites
 
 - Python 3.13 or newer
