@@ -53,6 +53,10 @@ def extract_words_tags(sentences):
     return words, tags
 
 
+def get_tokens(sentences):
+    return [token for sentence in sentences for token in sentence]
+
+
 def validate_sentences(sentences):
     if not sentences:
         raise ValueError("No sentences were loaded")
