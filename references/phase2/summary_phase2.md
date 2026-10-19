@@ -354,11 +354,13 @@ A CRF models the complete tag sequence instead of treating each token decision a
 Let $s_t(c)$ be the emission score for tag $c$ at position $t$. Let $A_{a,b}$ be the learned transition score from tag $a$ to tag $b$. The score of a tag sequence $y$ is:
 
 $$
-Score(x,y) =
-\sum_{t=1}^{T}s_t(y_t)
-+ \sum_{t=1}^{T-1}A_{y_t,y_{t+1}}
-+ A_{START,y_1}
-+ A_{y_T,END}
+\begin{aligned}
+Score(x,y) ={}&
+\sum_{t=1}^{T}s_t(y_t) \\
+&+ \sum_{t=1}^{T-1}A_{y_t,y_{t+1}} \\
+&+ A_{START,y_1} \\
+&+ A_{y_T,END}
+\end{aligned}
 $$
 
 The conditional probability is:
