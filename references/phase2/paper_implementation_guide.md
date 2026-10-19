@@ -887,7 +887,7 @@ Decoding selects:
 
 $$
 \hat{y} =
-\underset{y}{\operatorname{argmax}}\ Score(x,y)
+\underset{y}{\max}\ Score(x,y)
 $$
 
 ## Implementation Order

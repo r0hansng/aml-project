@@ -263,13 +263,13 @@ $$
 The decoder must find:
 
 $$
-\hat{T} = \underset{T}{\operatorname{argmax}}\ P(T \mid W)
+\hat{T} = \underset{T}{\max}\ P(T \mid W)
 $$
 
 Using Bayes' rule, the denominator $P(W)$ is constant for a given sentence. Therefore, maximize the joint probability:
 
 $$
-\hat{T} = \underset{T}{\operatorname{argmax}}\ P(W, T)
+\hat{T} = \underset{T}{\max}\ P(W, T)
 $$
 
 For a first-order HMM with start state $\langle s \rangle$ and end state $\langle /s \rangle$:
@@ -401,14 +401,14 @@ $$
 Store the tag that gives the maximum value:
 
 $$
-B_i(t) = \underset{u \in \mathcal{T}}{\operatorname{argmax}}
+B_i(t) = \underset{u \in \mathcal{T}}{\max}
 \left[V_{i-1}(u) + \log P(t \mid u)\right]
 $$
 
 Termination:
 
 $$
-\hat{t}_T = \underset{t \in \mathcal{T}}{\operatorname{argmax}}
+\hat{t}_T = \underset{t \in \mathcal{T}}{\max}
 \left[V_T(t) + \log P(\langle /s \rangle \mid t)\right]
 $$
 
@@ -466,7 +466,7 @@ A stronger but still interpretable extension uses word suffixes. For an unknown 
 For all tokens in an evaluation split:
 
 $$
-\operatorname{Accuracy} =
+	ext{Accuracy} =
 \frac{\#\text{correctly predicted tags}}
 {\#\text{tokens}}
 $$
@@ -480,20 +480,20 @@ Accuracy is easy to understand, but frequent tags can dominate it.
 For a tag $c$:
 
 $$
-\operatorname{Precision}_c =
+	ext{Precision}_c =
 \frac{TP_c}{TP_c + FP_c}
 $$
 
 $$
-\operatorname{Recall}_c =
+	ext{Recall}_c =
 \frac{TP_c}{TP_c + FN_c}
 $$
 
 $$
 F1_c =
 2 \cdot
-\frac{\operatorname{Precision}_c \cdot \operatorname{Recall}_c}
-{\operatorname{Precision}_c + \operatorname{Recall}_c}
+\frac{\text{Precision}_c \cdot \text{Recall}_c}
+{\text{Precision}_c + \text{Recall}_c}
 $$
 
 If both precision and recall are zero, define $F1_c = 0$ in the metric implementation.
@@ -517,7 +517,7 @@ Macro F1 gives each tag equal weight. This is important for rare classes such as
 Let $U$ be the set of evaluation token positions whose original words do not occur in the training vocabulary:
 
 $$
-\operatorname{UnknownAccuracy} =
+	ext{UnknownAccuracy} =
 \frac{\#\{i \in U : \hat{t}_i = t_i\}}
 {|U|}
 $$

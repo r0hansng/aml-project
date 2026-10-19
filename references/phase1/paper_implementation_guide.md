@@ -426,13 +426,13 @@ $$
 The model finds:
 
 $$
-\hat{T} = \underset{T}{\operatorname{argmax}}\ P(T \mid W)
+\hat{T} = \underset{T}{\max}\ P(T \mid W)
 $$
 
 For decoding, the denominator is constant for the sentence. Therefore, the project maximizes the joint probability:
 
 $$
-\hat{T} = \underset{T}{\operatorname{argmax}}\ P(W,T)
+\hat{T} = \underset{T}{\max}\ P(W,T)
 $$
 
 For a first-order HMM:

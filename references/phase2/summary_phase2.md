@@ -299,7 +299,7 @@ where $\mathcal{T}$ is the 17-tag UPOS set.
 The predicted tag is:
 
 $$
-\hat{y}_t = \operatorname{argmax}_{c \in \mathcal{T}} p(y_t=c \mid x)
+\hat{y}_t = \max_{c \in \mathcal{T}} p(y_t=c \mid x)
 $$
 
 This classifier predicts each position using a contextual representation. Unlike the HMM, it does not explicitly multiply transition and emission probabilities.
@@ -380,7 +380,7 @@ $$
 Decoding uses the highest-scoring sequence:
 
 $$
-\hat{y} = \operatorname{argmax}_{y \in \mathcal{Y}(x)} Score(x,y)
+\hat{y} = \max_{y \in \mathcal{Y}(x)} Score(x,y)
 $$
 
 This decoding is Viterbi-like, but the scores come from neural emissions and learned tag transitions.
