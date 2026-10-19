@@ -5,6 +5,7 @@ setup:
 
 test:
 	uv run python tests/test_dataset_loader.py
+	uv run python tests/test_dataset_validation.py
 	uv run python -m unittest discover -s tests -p 'test_imports.py' -v
 
 notebook:
