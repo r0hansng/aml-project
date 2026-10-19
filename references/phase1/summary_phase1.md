@@ -466,9 +466,9 @@ A stronger but still interpretable extension uses word suffixes. For an unknown 
 For all tokens in an evaluation split:
 
 $$
-	ext{Accuracy} =
-\frac{\#\text{correctly predicted tags}}
-{\#\text{tokens}}
+    ext{Accuracy} =
+\frac{\text{number of correctly predicted tags}}
+{\text{number of tokens}}
 $$
 
 Accuracy is easy to understand, but frequent tags can dominate it.
@@ -480,12 +480,12 @@ Accuracy is easy to understand, but frequent tags can dominate it.
 For a tag $c$:
 
 $$
-	ext{Precision}_c =
+    ext{Precision}_c =
 \frac{TP_c}{TP_c + FP_c}
 $$
 
 $$
-	ext{Recall}_c =
+    ext{Recall}_c =
 \frac{TP_c}{TP_c + FN_c}
 $$
 
@@ -505,7 +505,7 @@ If both precision and recall are zero, define $F1_c = 0$ in the metric implement
 For $K$ UPOS classes:
 
 $$
-F1_{macro} = \frac{1}{K}\sum_{c=1}^{K} F1_c
+F1_{\text{macro}} = \frac{1}{K}\sum_{c=1}^{K} F1_c
 $$
 
 Macro F1 gives each tag equal weight. This is important for rare classes such as `X`, `SYM`, or `INTJ`.
@@ -517,8 +517,8 @@ Macro F1 gives each tag equal weight. This is important for rare classes such as
 Let $U$ be the set of evaluation token positions whose original words do not occur in the training vocabulary:
 
 $$
-	ext{UnknownAccuracy} =
-\frac{\#\{i \in U : \hat{t}_i = t_i\}}
+    ext{UnknownAccuracy} =
+\frac{|\{i \in U : \hat{t}_i = t_i\}|}
 {|U|}
 $$
 

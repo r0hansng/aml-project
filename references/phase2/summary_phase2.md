@@ -512,18 +512,18 @@ Use the same metrics as Phase 1:
 
 $$
 Accuracy =
-\frac{\#\text{correct real-token predictions}}
-{\#\text{real evaluation tokens}}
+\frac{\text{number of correct real-token predictions}}
+{\text{number of real evaluation tokens}}
 $$
 
 $$
-F1_{macro} = \frac{1}{K}\sum_{c=1}^{K}F1_c
+F1_{\text{macro}} = \frac{1}{K}\sum_{c=1}^{K}F1_c
 $$
 
 $$
 UnknownAccuracy =
-\frac{\#\text{correct predictions on originally unseen words}}
-{\#\text{originally unseen words}}
+\frac{\text{number of correct predictions on originally unseen words}}
+{\text{number of originally unseen words}}
 $$
 
 Padding positions must be excluded from every metric.
