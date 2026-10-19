@@ -22,8 +22,15 @@ aml-project/
 │   └── test.conllu
 ├── notebooks/
 │   └── eda.ipynb
+├── experiments/
+│   └── validate_dataset.py
 ├── src/
-│   └── dataset_loader.py
+│   ├── dataset_loader.py
+│   └── dataset_registry.py
+├── tests/
+│   ├── test_dataset_loader.py
+│   ├── test_dataset_validation.py
+│   └── test_imports.py
 └── memory.md
 ```
 
@@ -64,6 +71,54 @@ sys.path.insert(0, str(Path("..").resolve()))
 ```
 
 The loader is expected to return sentences where each sentence is a list of `(word, tag)` tuples.
+
+The loader currently:
+
+- requires ten CoNLL-U columns;
+- extracts `FORM` and `UPOS`;
+- preserves sentence boundaries;
+- ignores comments;
+- skips multiword-token IDs such as `1-2`;
+- skips empty-node IDs such as `3.1`;
+- rejects malformed token IDs;
+- supports Unix and Windows line endings;
+- validates sentence structure and official UPOS tags.
+
+The project uses the POS-tagging subset of the UD annotation scheme. It does not preserve all CoNLL-U fields such as `LEMMA`, `FEATS`, `HEAD`, or `DEPREL` because Phase 1 does not require dependency parsing.
+
+### `src/dataset_registry.py`
+
+Defines the official dataset paths relative to the project root:
+
+```python
+DATASET_SPLITS = {
+  "train": DATA_DIRECTORY / "train.conllu",
+  "dev": DATA_DIRECTORY / "dev.conllu",
+  "test": DATA_DIRECTORY / "test.conllu",
+}
+```
+
+`validate_dataset_files()` raises `FileNotFoundError` when an official split is missing.
+
+### `experiments/validate_dataset.py`
+
+Loads the registered train, development, and test files. The script adds the project root to `sys.path`, so it works when executed directly:
+
+```bash
+python experiments/validate_dataset.py
+```
+
+### `tests/test_dataset_validation.py`
+
+Verifies:
+
+- official split files exist;
+- expected sentence counts remain unchanged;
+- expected token counts remain unchanged;
+- official UPOS tags are valid;
+- comments, multiword tokens, empty nodes, and Windows line endings are handled;
+- malformed column counts and token IDs are rejected;
+- invalid UPOS tags and empty datasets are rejected.
 
 ### `notebooks/eda.ipynb`
 
@@ -360,25 +415,39 @@ The notebook currently verifies data-file existence before loading the files.
 
 ## Recommended Next Steps
 
-1. Verify and document the exact implementation of `src/dataset_loader.py`.
-2. Add tests for CoNLL-U parsing.
-3. Confirm that multiword-token and empty-node rows are handled correctly.
-4. Define the POS-tag vocabulary and special symbols.
-5. Implement an HMM baseline with:
+1. Define the training-only vocabulary and POS-tag mapping for the HMM.
+2. Define special symbols such as `<START>`, `<END>`, and `<UNK>`.
+3. Implement an HMM baseline with:
    - Transition probabilities
    - Emission probabilities
    - Smoothing
    - Unknown-word handling
-6. Implement a BiLSTM baseline with:
+4. Add Viterbi decoding and tests for sequence scores and backpointers.
+5. Create evaluation utilities for:
+  - Token-level accuracy
+  - Per-tag precision, recall, and F1
+  - Macro F1
+  - Unknown-word accuracy
+  - Confusion matrix
+6. Keep the test set isolated until final evaluation.
+7. Record model configurations, random seeds, and results for reproducibility.
+8. Implement Phase 2 only after Phase 1 is complete. The BiLSTM baseline should include:
    - Word embeddings
    - `<UNK>` token handling
    - Optional character-level features
-7. Create evaluation utilities for:
-   - Token-level accuracy
-   - Per-tag precision, recall, and F1
-   - Confusion matrix
-8. Keep the test set isolated until final evaluation.
-9. Record model configurations, random seeds, and results for reproducibility.
+
+The detailed literature and implementation guidance is stored in:
+
+- `references/phase1/summary_phase1.md`
+- `references/phase2/summary_phase2.md`
+
+Run the verified project checks with:
+
+```bash
+make test
+```
+
+The current test target passes the loader script, dataset validation tests, and dependency import tests.
 
 ---
 
