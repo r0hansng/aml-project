@@ -22,14 +22,16 @@ The Phase 1 model must:
 
 | Order | Local PDF | Main use in this project |
 | --- | --- | --- |
-| 1 | `Nivre, J. et al. (2020)..pdf` | Understand UD v2, UPOS, and treebank standards. |
-| 2 | `Silveira, M. et al. (2014)..pdf` | Understand the English Web Treebank data source. |
-| 3 | `Church (1988), A Stochastic Parts Program and Noun Phrase Parser for Unrestricted Text.pdf` | Understand why local word and tag context can solve POS ambiguity. |
-| 4 | `rabiner.pdf` | Learn the HMM probability model and Viterbi decoding. |
-| 5 | `brants.pdf` | Learn practical POS-tagging choices: smoothing, sentence markers, and unknown words. |
-| 6 | `Jurafsky, D., & Martin, J. H._18.pdf` | Review statistical sequence models and POS tagging in a modern NLP text. |
-| 7 | `Manning, C. D., Raghavan, P., & Schutze...` | Review probability, language models, and evaluation concepts. |
-| 8 | `ASystematicAnalysisofPerformanceMeasuresforClassificationTasks.pdf` | Justify accuracy, precision, recall, F1, and macro averaging. |
+| 1 | `01_nivre_2020_universal_dependencies_v2.pdf` | Understand UD v2, UPOS, and treebank standards. |
+| 2 | `02_silveira_2014_english_web_treebank.pdf` | Understand the English Web Treebank data source. |
+| 3 | `03_church_1988_stochastic_pos_tagger.pdf` | Understand why local word and tag context can solve POS ambiguity. |
+| 4 | `04_rabiner_1989_hidden_markov_models.pdf` | Learn the HMM probability model and Viterbi decoding. |
+| 5 | `05_brants_2000_tnt_pos_tagger.pdf` | Learn practical POS-tagging choices: smoothing, sentence markers, and unknown words. |
+| 6 | `06_jurafsky_martin_2026_sequence_labeling.pdf` | Review statistical sequence models and POS tagging in a modern NLP text. |
+| 7 | `07_manning_raghavan_schutze_2008_evaluation.pdf` | Review experimental split and evaluation discipline. |
+| 8 | `08_manning_raghavan_schutze_2008_probability.pdf` | Review probability fundamentals. |
+| 9 | `09_manning_raghavan_schutze_2008_language_models.pdf` | Review generative language modeling concepts. |
+| 10 | `10_sokolova_lapalme_2009_classification_metrics.pdf` | Justify accuracy, precision, recall, F1, and macro averaging. |
 
 The most important reading set is Nivre, Silveira, Church, Rabiner, Brants, and Sokolova and Lapalme.
 
@@ -39,17 +41,17 @@ Each source note identifies the local PDF, the section title, and the printed pa
 
 | Topic | Source location | What to take from it |
 | --- | --- | --- |
-| UPOS labels and annotation layers | `Nivre, J. et al. (2020)..pdf`, Section 2, **Annotation Scheme**, pp. 4035-4037 | Use the UD annotation model and universal POS tags. |
-| Available treebanks and split context | `Nivre, J. et al. (2020)..pdf`, Section 4, **Available Treebanks**, pp. 4040-4042 | Treat the published treebank splits as fixed evaluation data. |
-| English Web Treebank | `Silveira, M. et al. (2014)..pdf`, Section 2, **English Web Treebank**, pp. 2898-2899 | Describe the source, web genres, and corpus construction. |
-| POS ambiguity and local context | `Church (1988), A Stochastic Parts Program and Noun Phrase Parser for Unrestricted Text.pdf`, opening discussion and method description, printed pp. 136-137 | Motivate lexical and contextual probabilities. |
-| HMM definition | `rabiner.pdf`, Section III, **Hidden Markov Models**, especially Sections III.A-III.C | Define states, observations, transition probabilities, emissions, and the three HMM problems. |
-| Viterbi decoding | `rabiner.pdf`, Section III.C, **Solution to the Three Basic Problems of HMMs**, and `Jurafsky, D., & Martin, J. H._18.pdf`, Section 18.4.5, **The Viterbi Algorithm** | Use dynamic programming instead of enumerating all tag sequences. |
-| HMM POS tagging | `Jurafsky, D., & Martin, J. H._18.pdf`, Sections 18.4.1-18.4.6 | Connect the general HMM to word observations and POS-tag states. |
-| Smoothing | `brants.pdf`, Section 2.2, **Smoothing**, printed pp. 225-226 | Avoid zero-probability paths and record the smoothing method. |
-| Unknown words | `brants.pdf`, Section 2.3, **Handling of Unknown Words**, printed pp. 226-227 | Use an `UNK` baseline and consider suffix evidence as an extension. |
-| Start and end states | `brants.pdf`, Section 2.1, **The Underlying Model**, printed pp. 224-225 | Include sentence boundary tags in transition scoring. |
-| Evaluation measures | `ASystematicAnalysisofPerformanceMeasuresforClassificationTasks.pdf`, Sections 1-2, printed pp. 427-429, and Section 4, **Invariance properties of measures**, pp. 430-436 | Explain multi-class evaluation, confusion matrices, and metric limitations. |
+| UPOS labels and annotation layers | `01_nivre_2020_universal_dependencies_v2.pdf`, Section 2, **Annotation Scheme**, pp. 4035-4037 | Use the UD annotation model and universal POS tags. |
+| Available treebanks and split context | `01_nivre_2020_universal_dependencies_v2.pdf`, Section 4, **Available Treebanks**, pp. 4040-4042 | Treat the published treebank splits as fixed evaluation data. |
+| English Web Treebank | `02_silveira_2014_english_web_treebank.pdf`, Section 2, **English Web Treebank**, pp. 2898-2899 | Describe the source, web genres, and corpus construction. |
+| POS ambiguity and local context | `03_church_1988_stochastic_pos_tagger.pdf`, opening discussion and method description, printed pp. 136-137 | Motivate lexical and contextual probabilities. |
+| HMM definition | `04_rabiner_1989_hidden_markov_models.pdf`, Section III, **Hidden Markov Models**, especially Sections III.A-III.C | Define states, observations, transition probabilities, emissions, and the three HMM problems. |
+| Viterbi decoding | `04_rabiner_1989_hidden_markov_models.pdf`, Section III.C, **Solution to the Three Basic Problems of HMMs**, and `06_jurafsky_martin_2026_sequence_labeling.pdf`, Section 18.4.5, **The Viterbi Algorithm** | Use dynamic programming instead of enumerating all tag sequences. |
+| HMM POS tagging | `06_jurafsky_martin_2026_sequence_labeling.pdf`, Sections 18.4.1-18.4.6 | Connect the general HMM to word observations and POS-tag states. |
+| Smoothing | `05_brants_2000_tnt_pos_tagger.pdf`, Section 2.2, **Smoothing**, printed pp. 225-226 | Avoid zero-probability paths and record the smoothing method. |
+| Unknown words | `05_brants_2000_tnt_pos_tagger.pdf`, Section 2.3, **Handling of Unknown Words**, printed pp. 226-227 | Use an `UNK` baseline and consider suffix evidence as an extension. |
+| Start and end states | `05_brants_2000_tnt_pos_tagger.pdf`, Section 2.1, **The Underlying Model**, printed pp. 224-225 | Include sentence boundary tags in transition scoring. |
+| Evaluation measures | `10_sokolova_lapalme_2009_classification_metrics.pdf`, Sections 1-2, printed pp. 427-429, and Section 4, **Invariance properties of measures**, pp. 430-436 | Explain multi-class evaluation, confusion matrices, and metric limitations. |
 
 ### Evidence versus project decisions
 
@@ -93,7 +95,7 @@ Use the test set only after model decisions are complete.
 
 ### 2.1 Universal Dependencies: Nivre et al. (2020)
 
-**Source anchor:** `Nivre, J. et al. (2020)..pdf`, Section 2, **Annotation Scheme**, pp. 4035-4037; Section 4, **Available Treebanks**, pp. 4040-4042.
+**Source anchor:** `01_nivre_2020_universal_dependencies_v2.pdf`, Section 2, **Annotation Scheme**, pp. 4035-4037; Section 4, **Available Treebanks**, pp. 4040-4042.
 
 The UD v2 paper explains a common annotation framework for many languages. For this project, the important points are:
 
@@ -106,7 +108,7 @@ The UD v2 paper explains a common annotation framework for many languages. For t
 
 ### 2.2 English Web Treebank: Silveira et al. (2014)
 
-**Source anchor:** `Silveira, M. et al. (2014)..pdf`, Section 2, **English Web Treebank**, pp. 2898-2899; Section 6, **Experiments**, pp. 2900-2901.
+**Source anchor:** `02_silveira_2014_english_web_treebank.pdf`, Section 2, **English Web Treebank**, pp. 2898-2899; Section 6, **Experiments**, pp. 2900-2901.
 
 The EWT paper describes a gold-standard English web corpus. The data comes from different web genres, so the language is not identical to edited news text. This matters because:
 
@@ -119,7 +121,7 @@ The EWT paper describes a gold-standard English web corpus. The data comes from 
 
 ### 2.3 Statistical POS Tagging: Church (1988)
 
-**Source anchor:** `Church (1988), A Stochastic Parts Program and Noun Phrase Parser for Unrestricted Text.pdf`, opening discussion and method description, printed pp. 136-137. This PDF does not use numbered section headings in the opening pages, so the paragraph location is the reliable locator.
+**Source anchor:** `03_church_1988_stochastic_pos_tagger.pdf`, opening discussion and method description, printed pp. 136-137. This PDF does not use numbered section headings in the opening pages, so the paragraph location is the reliable locator.
 
 Church presents a statistical POS tagger that chooses the most likely tag sequence by combining lexical evidence and contextual evidence. The central lesson is that a word can have different tags in different contexts. For example, a word such as `table` can be a noun or a verb.
 
@@ -134,7 +136,7 @@ The paper also warns that a short-context model cannot represent every long-dist
 
 ### 2.4 HMM Theory: Rabiner (1989)
 
-**Source anchor:** `rabiner.pdf`, Section III, **Hidden Markov Models**, especially Section III.A, **Elements of an HMM**, Section III.B, **The Three Basic Problems of HMMs**, and Section III.C, **Solution to the Three Basic Problems of HMMs**.
+**Source anchor:** `04_rabiner_1989_hidden_markov_models.pdf`, Section III, **Hidden Markov Models**, especially Section III.A, **Elements of an HMM**, Section III.B, **The Three Basic Problems of HMMs**, and Section III.C, **Solution to the Three Basic Problems of HMMs**.
 
 Rabiner presents the general HMM framework. The model contains:
 
@@ -169,7 +171,7 @@ The horizontal edges represent transition probabilities. The dotted edges repres
 
 ### 2.5 Practical POS Tagging: Brants (2000)
 
-**Source anchor:** `brants.pdf`, Section 2, **Architecture**, printed pp. 224-227; Section 2.1, **The Underlying Model**; Section 2.2, **Smoothing**; Section 2.3, **Handling of Unknown Words**; and Section 3, **Evaluation**, pp. 227-231.
+**Source anchor:** `05_brants_2000_tnt_pos_tagger.pdf`, Section 2, **Architecture**, printed pp. 224-227; Section 2.1, **The Underlying Model**; Section 2.2, **Smoothing**; Section 2.3, **Handling of Unknown Words**; and Section 3, **Evaluation**, pp. 227-231.
 
 Brants describes TnT, a statistical POS tagger based on a Markov model. The paper is especially useful because it discusses details that are easy to omit in a basic implementation:
 
@@ -186,7 +188,7 @@ TnT uses a second-order Markov model. Its transition probability depends on two 
 
 ### 2.6 Probability and Language Models: Manning, Raghavan, and Schutze
 
-**Source anchor:** `Manning, C. D., Raghavan, P., & Schütze, H._11prob.pdf`, Chapter 11, Sections 11.1-11.2, for probability and uncertainty; `Manning, C. D., Raghavan, P., & Schütze, H._12lmodel.pdf`, Chapter 12, Section 12.1, **Language models**, for generative probability intuition. These chapters support the explanation but are not POS-tagging papers.
+**Source anchor:** `08_manning_raghavan_schutze_2008_probability.pdf`, Chapter 11, Sections 11.1-11.2, for probability and uncertainty; `09_manning_raghavan_schutze_2008_language_models.pdf`, Chapter 12, Section 12.1, **Language models**, for generative probability intuition. These chapters support the explanation but are not POS-tagging papers.
 
 The local chapters provide supporting probability concepts:
 
@@ -200,7 +202,7 @@ The language-model chapter is written for information retrieval, not POS tagging
 
 ### 2.7 Evaluation: Sokolova and Lapalme (2009)
 
-**Source anchor:** `ASystematicAnalysisofPerformanceMeasuresforClassificationTasks.pdf`, Section 2, **Overview of classification tasks**, printed pp. 428-429; Section 4, **Invariance properties of measures**, printed pp. 430-436. The paper's definitions of precision, recall, and F-score appear in the discussion around printed pp. 428-429.
+**Source anchor:** `10_sokolova_lapalme_2009_classification_metrics.pdf`, Section 2, **Overview of classification tasks**, printed pp. 428-429; Section 4, **Invariance properties of measures**, printed pp. 430-436. The paper's definitions of precision, recall, and F-score appear in the discussion around printed pp. 428-429.
 
 Sokolova and Lapalme analyze classification measures through confusion matrices and class distributions. This is relevant because POS tagging is a multi-class classification problem with imbalanced tag frequencies.
 
@@ -246,7 +248,7 @@ Read Section 1, **Motivation**, for the reason that evaluation measures must mat
 
 ## 3. HMM Formulation for This Project
 
-**Source anchor:** `Jurafsky, D., & Martin, J. H._18.pdf`, Sections 18.4.2, **The Hidden Markov Model**, and 18.4.3, **The components of an HMM tagger**; `rabiner.pdf`, Section III.A, **Elements of an HMM**. The notation below adapts those definitions to UD words and UPOS tags.
+**Source anchor:** `06_jurafsky_martin_2026_sequence_labeling.pdf`, Sections 18.4.2, **The Hidden Markov Model**, and 18.4.3, **The components of an HMM tagger**; `04_rabiner_1989_hidden_markov_models.pdf`, Section III.A, **Elements of an HMM**. The notation below adapts those definitions to UD words and UPOS tags.
 
 Let a sentence contain observed words:
 
@@ -285,7 +287,7 @@ The model has two learned tables.
 
 ### 3.1 Transition probability
 
-**Source anchor:** `Jurafsky, D., & Martin, J. H._18.pdf`, Section 18.4.3, **The components of an HMM tagger**; `brants.pdf`, Section 2.1, **The Underlying Model**, equations (2)-(4), printed pp. 224-225.
+**Source anchor:** `06_jurafsky_martin_2026_sequence_labeling.pdf`, Section 18.4.3, **The components of an HMM tagger**; `05_brants_2000_tnt_pos_tagger.pdf`, Section 2.1, **The Underlying Model**, equations (2)-(4), printed pp. 224-225.
 
 The maximum-likelihood transition estimate is:
 
@@ -298,7 +300,7 @@ Here, $C(a,b)$ is the number of times tag $b$ follows tag $a$ in the training da
 
 ### 3.2 Emission probability
 
-**Source anchor:** `Jurafsky, D., & Martin, J. H._18.pdf`, Section 18.4.3, **The components of an HMM tagger**; `brants.pdf`, Section 2.1, **The Underlying Model**, equation (5), printed p. 225.
+**Source anchor:** `06_jurafsky_martin_2026_sequence_labeling.pdf`, Section 18.4.3, **The components of an HMM tagger**; `05_brants_2000_tnt_pos_tagger.pdf`, Section 2.1, **The Underlying Model**, equation (5), printed p. 225.
 
 The maximum-likelihood emission estimate is:
 
@@ -312,7 +314,7 @@ A word can occur with more than one tag. The EDA already shows this ambiguity. D
 
 ### 3.3 Add-alpha smoothing
 
-**Source anchor:** `brants.pdf`, Section 2.2, **Smoothing**, printed pp. 225-226. Brants uses interpolated n-gram probabilities rather than the exact add-alpha equations below. Add-alpha is the project baseline because it is transparent, easy to test, and directly prevents zero probabilities.
+**Source anchor:** `05_brants_2000_tnt_pos_tagger.pdf`, Section 2.2, **Smoothing**, printed pp. 225-226. Brants uses interpolated n-gram probabilities rather than the exact add-alpha equations below. Add-alpha is the project baseline because it is transparent, easy to test, and directly prevents zero probabilities.
 
 A simple baseline uses add-alpha smoothing:
 
@@ -344,7 +346,7 @@ A practical alternative is a class-conditional unknown-word model. Brants uses s
 
 ### 3.4 Linear interpolation
 
-**Source anchor:** `brants.pdf`, Section 2.2, **Smoothing**, printed pp. 225-226, especially the interpolation equation and deleted-interpolation discussion.
+**Source anchor:** `05_brants_2000_tnt_pos_tagger.pdf`, Section 2.2, **Smoothing**, printed pp. 225-226, especially the interpolation equation and deleted-interpolation discussion.
 
 Brants uses interpolation to combine unigram, bigram, and trigram tag estimates:
 
@@ -365,7 +367,7 @@ This is relevant if a second-order extension is implemented. It is not required 
 
 ## 4. Viterbi Decoding
 
-**Source anchor:** `Jurafsky, D., & Martin, J. H._18.pdf`, Sections 18.4.4, **HMM tagging as decoding**, and 18.4.5, **The Viterbi Algorithm**; `rabiner.pdf`, Section III.C, **Solution to the Three Basic Problems of HMMs**. The recurrence below is the project-specific first-order form.
+**Source anchor:** `06_jurafsky_martin_2026_sequence_labeling.pdf`, Sections 18.4.4, **HMM tagging as decoding**, and 18.4.5, **The Viterbi Algorithm**; `04_rabiner_1989_hidden_markov_models.pdf`, Section III.C, **Solution to the Three Basic Problems of HMMs**. The recurrence below is the project-specific first-order form.
 
 Directly checking every possible tag sequence is expensive. If there are $K$ tags and $T$ words, there are $K^T$ possible sequences. Viterbi decoding reuses partial results.
 
@@ -439,7 +441,7 @@ The implementation should satisfy these checks:
 
 ## 5. Unknown-Word Handling
 
-**Source anchor:** `brants.pdf`, Section 2.3, **Handling of Unknown Words**, printed pp. 226-227. Brants describes suffix-based estimates for unknown words. The `UNK` bucket is the simpler Phase 1 baseline selected for this project.
+**Source anchor:** `05_brants_2000_tnt_pos_tagger.pdf`, Section 2.3, **Handling of Unknown Words**, printed pp. 226-227. Brants describes suffix-based estimates for unknown words. The `UNK` bucket is the simpler Phase 1 baseline selected for this project.
 
 The EDA shows meaningful unknown-word rates in development and test. This is a central Phase 1 problem, not a minor edge case.
 
@@ -457,7 +459,7 @@ A stronger but still interpretable extension uses word suffixes. For an unknown 
 
 ## 6. Evaluation Plan
 
-**Source anchor:** `ASystematicAnalysisofPerformanceMeasuresforClassificationTasks.pdf`, Section 2, **Overview of classification tasks**, printed pp. 428-429, and Section 4, **Invariance properties of measures**, printed pp. 430-436. The project applies these multi-class metric ideas to token-level UPOS predictions.
+**Source anchor:** `10_sokolova_lapalme_2009_classification_metrics.pdf`, Section 2, **Overview of classification tasks**, printed pp. 428-429, and Section 4, **Invariance properties of measures**, printed pp. 430-436. The project applies these multi-class metric ideas to token-level UPOS predictions.
 
 ### 6.1 Token accuracy
 
@@ -475,7 +477,7 @@ Accuracy is easy to understand, but frequent tags can dominate it.
 
 ### 6.2 Per-tag precision, recall, and F1
 
-**Source anchor:** `ASystematicAnalysisofPerformanceMeasuresforClassificationTasks.pdf`, Section 2, printed pp. 428-429, where precision, recall, and F-score are defined from classification outcomes. The subscript $c$ adapts the definitions to one UPOS class at a time.
+**Source anchor:** `10_sokolova_lapalme_2009_classification_metrics.pdf`, Section 2, printed pp. 428-429, where precision, recall, and F-score are defined from classification outcomes. The subscript $c$ adapts the definitions to one UPOS class at a time.
 
 For a tag $c$:
 
@@ -538,7 +540,7 @@ The exact error categories must come from the model output. Do not select exampl
 
 ## 7. Experimental Design
 
-**Source anchor for the split rule:** `Manning, C. D., Raghavan, P., & Schütze, H._08eval.pdf`, Chapter 8, Section 8.1, **Information retrieval system evaluation**, printed p. 152. The chapter states that parameters should be tuned on a development collection and then tested on a separate collection. The project applies the same principle to smoothing and unknown-word settings.
+**Source anchor for the split rule:** `07_manning_raghavan_schutze_2008_evaluation.pdf`, Chapter 8, Section 8.1, **Information retrieval system evaluation**, printed p. 152. The chapter states that parameters should be tuned on a development collection and then tested on a separate collection. The project applies the same principle to smoothing and unknown-word settings.
 
 ### Required experiment sequence
 

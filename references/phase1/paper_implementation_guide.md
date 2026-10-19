@@ -61,6 +61,8 @@ flowchart TD
 
 ## Source
 
+**PDF:** `01_nivre_2020_universal_dependencies_v2.pdf`
+
 **Paper:** *Universal Dependencies v2: An Evergrowing Multilingual Treebank Collection*
 
 **Relevant sections:**
@@ -163,6 +165,8 @@ Those fields may remain in the source data without entering the HMM.
 
 ## Source
 
+**PDF:** `02_silveira_2014_english_web_treebank.pdf`
+
 **Paper:** *A Gold Standard Dependency Corpus for English*
 
 **Relevant sections:**
@@ -252,6 +256,8 @@ The HMM does not need to reproduce the full corpus creation process. It only nee
 # 3. Church (1988)
 
 ## Source
+
+**PDF:** `03_church_1988_stochastic_pos_tagger.pdf`
 
 **Paper:** *A Stochastic Parts Program and Noun Phrase Parser for Unrestricted Text*
 
@@ -357,6 +363,8 @@ Church's original tagset and corpus do not need to be copied. The project uses t
 # 4. Rabiner (1989)
 
 ## Source
+
+**PDF:** `04_rabiner_1989_hidden_markov_models.pdf`
 
 **Paper:** *A Tutorial on Hidden Markov Models and Selected Applications in Speech Recognition*
 
@@ -466,6 +474,8 @@ The project does not need to reproduce Rabiner's speech-recognition experiments.
 # 5. Brants (2000)
 
 ## Source
+
+**PDF:** `05_brants_2000_tnt_pos_tagger.pdf`
 
 **Paper:** *TnT: A Statistical Part-of-Speech Tagger*
 
@@ -597,7 +607,7 @@ Brants turns the abstract HMM into a practical POS tagger. The code must record:
 
 ## Source
 
-**PDF:** `Jurafsky, D., & Martin, J. H._18.pdf`
+**PDF:** `06_jurafsky_martin_2026_sequence_labeling.pdf`
 
 **Chapter:** Chapter 18, **Sequence Labeling for Parts of Speech and Named Entities**
 
@@ -714,7 +724,7 @@ The code must:
 
 ## Source
 
-**PDF:** `Manning, C. D., Raghavan, P., & Schütze, H._08eval.pdf`
+**PDF:** `07_manning_raghavan_schutze_2008_evaluation.pdf`
 
 **Relevant section:** Chapter 8, Section 8.1, **Information retrieval system evaluation**
 
@@ -781,8 +791,8 @@ The project does not need to use information-retrieval metrics such as ranked re
 
 **PDFs:**
 
-- `Manning, C. D., Raghavan, P., & Schütze, H._11prob.pdf`
-- `Manning, C. D., Raghavan, P., & Schütze, H._12lmodel.pdf`
+- `08_manning_raghavan_schutze_2008_probability.pdf`
+- `09_manning_raghavan_schutze_2008_language_models.pdf`
 
 **Relevant sections:**
 
@@ -840,6 +850,8 @@ These chapters are not instructions to build an information-retrieval system. Th
 # 9. Sokolova and Lapalme (2009)
 
 ## Source
+
+**PDF:** `10_sokolova_lapalme_2009_classification_metrics.pdf`
 
 **Paper:** *A Systematic Analysis of Performance Measures for Classification Tasks*
 

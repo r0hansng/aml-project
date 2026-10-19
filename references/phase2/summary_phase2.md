@@ -19,12 +19,12 @@ Do not compare an unfinished BiLSTM with a tuned HMM. First define both systems,
 
 | Order | Local PDF | Main use in this project |
 | --- | --- | --- |
-| 1 | `HorchreiterSchmidhuber_LSTM.pdf` | Learn the LSTM memory cell and the long-term dependency problem. |
-| 2 | `Graves and Schmidhuber (2005), Framewise Phoneme Classification with Bidirectional LSTM.pdf` | Learn bidirectional recurrent processing and sequence-level training. |
-| 3 | `Lample et al. (2016), Neural Architectures for Named Entity Recognition.pdf` | Learn word plus character representations and LSTM-CRF tagging. |
-| 4 | `Ma and Hovy (2016), End-to-End Sequence Labeling via Bi-directional LSTM-CNNs-CRF.pdf` | Learn character CNNs, BiLSTM, CRF scoring, dropout, and OOV analysis. |
-| 5 | `Huang, Z., Xu, W., & Yu, K. (2015)..pdf` | Compare LSTM, BiLSTM, CRF, and BiLSTM-CRF models. |
-| 6 | `Plank, Søgaard, and Goldberg (2016), Multilingual Part-of-Speech Tagging with Bidirectional LSTM Models and Auxiliary Loss.pdf` | Read the POS-specific motivation, multilingual setting, and auxiliary-loss idea. |
+| 1 | `01_hochreiter_schmidhuber_1997_lstm.pdf` | Learn the LSTM memory cell and the long-term dependency problem. |
+| 2 | `02_graves_schmidhuber_2005_bilstm.pdf` | Learn bidirectional recurrent processing and sequence-level training. |
+| 3 | `03_huang_xu_yu_2015_bilstm_crf.pdf` | Compare LSTM, BiLSTM, CRF, and BiLSTM-CRF models. |
+| 4 | `04_lample_2016_neural_architectures_ner.pdf` | Learn word plus character representations and LSTM-CRF tagging. |
+| 5 | `05_ma_hovy_2016_bilstm_cnn_crf.pdf` | Learn character CNNs, BiLSTM, CRF scoring, dropout, and OOV analysis. |
+| 6 | `06_plank_2016_multilingual_pos_bilstm.pdf` | Read the POS-specific motivation, multilingual setting, and auxiliary-loss idea. |
 
 The most important papers for this project are Hochreiter and Schmidhuber, Graves and Schmidhuber, Lample et al., Ma and Hovy, and Plank et al.
 
@@ -34,15 +34,15 @@ Each source note gives the local PDF and the section title from which the idea i
 
 | Topic | Source location | Project use |
 | --- | --- | --- |
-| LSTM memory and gates | `HorchreiterSchmidhuber_LSTM.pdf`, Section 3, **Long Short-Term Memory**, including the Constant Error Carousel and LSTM architecture subsections | Implement the cell state and gates. |
-| Bidirectional recurrence | `Graves and Schmidhuber (2005), Framewise Phoneme Classification with Bidirectional LSTM.pdf`, Section II, **Bidirectional Recurrent Neural Nets**, and Section III, **LSTM** | Use left and right context at every token. |
-| Word and character representations | `Lample et al. (2016), Neural Architectures for Named Entity Recognition.pdf`, Section 4.1, **Character-based models of words**, and `Ma and Hovy (2016), End-to-End Sequence Labeling via Bi-directional LSTM-CNNs-CRF.pdf`, Section 2.1, **CNN for Character-level Representation** | Build a representation for rare and unseen words. |
-| BiLSTM sequence encoder | `Ma and Hovy (2016), End-to-End Sequence Labeling via Bi-directional LSTM-CNNs-CRF.pdf`, Section 2.2, **Bi-directional LSTM** | Encode the sentence in both directions. |
-| Token classifier | `Lample et al. (2016), Neural Architectures for Named Entity Recognition.pdf`, Sections 2.1-2.3 | Produce tag scores and train the sequence model. |
-| CRF decoder | `Huang, Z., Xu, W., & Yu, K. (2015)..pdf`, Sections 2.3-2.5; `Ma and Hovy (2016)...pdf`, Section 2.3, **CRF** | Add structured tag-transition scores as an optional extension. |
-| Training and regularization | `Ma and Hovy (2016)...pdf`, Sections 3.1-3.3; `Lample et al. (2016)...pdf`, Sections 4.3 and 5.1 | Initialize, optimize, tune, and regularize the model. |
-| POS-specific design | `Plank, Søgaard, and Goldberg (2016)...pdf`, Sections 1, 3.1, and 3.2 | Connect BiLSTM design to POS tagging. |
-| OOV evaluation | `Ma and Hovy (2016)...pdf`, Section 4.6, **OOV Error Analysis** | Measure unknown-word performance separately. |
+| LSTM memory and gates | `01_hochreiter_schmidhuber_1997_lstm.pdf`, Section 3, **Long Short-Term Memory**, including the Constant Error Carousel and LSTM architecture subsections | Implement the cell state and gates. |
+| Bidirectional recurrence | `02_graves_schmidhuber_2005_bilstm.pdf`, Section II, **Bidirectional Recurrent Neural Nets**, and Section III, **LSTM** | Use left and right context at every token. |
+| Word and character representations | `04_lample_2016_neural_architectures_ner.pdf`, Section 4.1, **Character-based models of words**, and `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 2.1, **CNN for Character-level Representation** | Build a representation for rare and unseen words. |
+| BiLSTM sequence encoder | `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 2.2, **Bi-directional LSTM** | Encode the sentence in both directions. |
+| Token classifier | `04_lample_2016_neural_architectures_ner.pdf`, Sections 2.1-2.3 | Produce tag scores and train the sequence model. |
+| CRF decoder | `03_huang_xu_yu_2015_bilstm_crf.pdf`, Sections 2.3-2.5; `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 2.3, **CRF** | Add structured tag-transition scores as an optional extension. |
+| Training and regularization | `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Sections 3.1-3.3; `04_lample_2016_neural_architectures_ner.pdf`, Sections 4.3 and 5.1 | Initialize, optimize, tune, and regularize the model. |
+| POS-specific design | `06_plank_2016_multilingual_pos_bilstm.pdf`, Sections 1, 3.1, and 3.2 | Connect BiLSTM design to POS tagging. |
+| OOV evaluation | `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 4.6, **OOV Error Analysis** | Measure unknown-word performance separately. |
 
 ## 1. Project Context
 
@@ -74,13 +74,13 @@ flowchart LR
 
 ### Source anchor
 
-The sequence-labeling framing comes from `HorchreiterSchmidhuber_LSTM.pdf`, Section 3, and `Graves and Schmidhuber (2005)...pdf`, Sections II-III. The word and character input design comes from `Lample et al. (2016)...pdf`, Section 4.1, and `Ma and Hovy (2016)...pdf`, Section 2.1.
+The sequence-labeling framing comes from `01_hochreiter_schmidhuber_1997_lstm.pdf`, Section 3, and `02_graves_schmidhuber_2005_bilstm.pdf`, Sections II-III. The word and character input design comes from `04_lample_2016_neural_architectures_ner.pdf`, Section 4.1, and `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 2.1.
 
 ## 2. Literature Synthesis
 
 ### 2.1 LSTM: Hochreiter and Schmidhuber
 
-**Source anchor:** `HorchreiterSchmidhuber_LSTM.pdf`, Section 2, **The Problem of Long-Term Dependencies**, and Section 3, **Long Short-Term Memory**, including the Constant Error Carousel and LSTM architecture discussion. The local PDF has damaged text encoding, so the section-level locator is more reliable than extracted page text.
+**Source anchor:** `01_hochreiter_schmidhuber_1997_lstm.pdf`, Section 2, **The Problem of Long-Term Dependencies**, and Section 3, **Long Short-Term Memory**, including the Constant Error Carousel and LSTM architecture discussion. The local PDF has damaged text encoding, so the section-level locator is more reliable than extracted page text.
 
 The paper explains why ordinary recurrent networks have difficulty learning relationships over long distances. During repeated multiplication through time, gradients can become extremely small or extremely large. The LSTM introduces a memory path with controlled updates.
 
@@ -100,7 +100,7 @@ The cell state lets the network preserve useful information and remove informati
 
 ### 2.2 Bidirectional LSTM: Graves and Schmidhuber
 
-**Source anchor:** `Graves and Schmidhuber (2005), Framewise Phoneme Classification with Bidirectional LSTM.pdf`, Section II, **Bidirectional Recurrent Neural Nets**; Section III, **LSTM**; Section V, **Network Architectures**; Section VI, **Network Training**; and Section VII, **Results**.
+**Source anchor:** `02_graves_schmidhuber_2005_bilstm.pdf`, Section II, **Bidirectional Recurrent Neural Nets**; Section III, **LSTM**; Section V, **Network Architectures**; Section VI, **Network Training**; and Section VII, **Results**.
 
 A forward recurrent network sees the left context. A backward recurrent network sees the right context. A bidirectional model combines both representations for each position.
 
@@ -110,7 +110,7 @@ For POS tagging this is useful because the tag of a word can depend on words bef
 
 ### 2.3 BiLSTM and CRF: Huang, Xu, and Yu
 
-**Source anchor:** `Huang, Z., Xu, W., & Yu, K. (2015)..pdf`, Section 2, **Models**, especially Sections 2.1, **LSTM Networks**; 2.2, **Bidirectional LSTM Networks**; 2.3, **CRF networks**; 2.4, **LSTM-CRF networks**; and 2.5, **BI-LSTM-CRF networks**. Training is discussed in Section 3, **Training procedure**; features and robustness are discussed in Sections 4.2-4.3.
+**Source anchor:** `03_huang_xu_yu_2015_bilstm_crf.pdf`, Section 2, **Models**, especially Sections 2.1, **LSTM Networks**; 2.2, **Bidirectional LSTM Networks**; 2.3, **CRF networks**; 2.4, **LSTM-CRF networks**; and 2.5, **BI-LSTM-CRF networks**. Training is discussed in Section 3, **Training procedure**; features and robustness are discussed in Sections 4.2-4.3.
 
 This paper separates the model into two ideas:
 
@@ -123,7 +123,7 @@ The paper compares LSTM, BiLSTM, CRF, LSTM-CRF, and BiLSTM-CRF variants. The com
 
 ### 2.4 Character and word representations: Lample et al.
 
-**Source anchor:** `Lample et al. (2016), Neural Architectures for Named Entity Recognition.pdf`, Section 2.1, **LSTM**; Section 2.2, **CRF Tagging Models**; Section 2.3, **Parameterization and Training**; Section 4.1, **Character-based models of words**; Section 4.2, **Pretrained embeddings**; and Section 4.3, **Dropout training**.
+**Source anchor:** `04_lample_2016_neural_architectures_ner.pdf`, Section 2.1, **LSTM**; Section 2.2, **CRF Tagging Models**; Section 2.3, **Parameterization and Training**; Section 4.1, **Character-based models of words**; Section 4.2, **Pretrained embeddings**; and Section 4.3, **Dropout training**.
 
 The paper shows how a word representation can combine a word embedding with a character-based representation. Character information can represent spelling patterns and can produce a useful vector for a word that is not in the word vocabulary.
 
@@ -139,7 +139,7 @@ For this project, the character representation can capture patterns such as:
 
 ### 2.5 Character CNN and BiLSTM-CRF: Ma and Hovy
 
-**Source anchor:** `Ma and Hovy (2016), End-to-End Sequence Labeling via Bi-directional LSTM-CNNs-CRF.pdf`, Section 2, **Neural Network Architecture**, especially Sections 2.1, **CNN for Character-level Representation**; 2.2, **Bi-directional LSTM**; 2.3, **CRF**; and 2.4, **BLSTM-CNNs-CRF**. Training is in Section 3. OOV analysis is in Section 4.6, **OOV Error Analysis**.
+**Source anchor:** `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 2, **Neural Network Architecture**, especially Sections 2.1, **CNN for Character-level Representation**; 2.2, **Bi-directional LSTM**; 2.3, **CRF**; and 2.4, **BLSTM-CNNs-CRF**. Training is in Section 3. OOV analysis is in Section 4.6, **OOV Error Analysis**.
 
 This paper uses a character CNN to create a word representation, a BiLSTM to encode sentence context, and a CRF to score the output sequence. It is a useful design reference because each component has a clear role.
 
@@ -149,7 +149,7 @@ The paper also discusses parameter initialization, optimization, dropout, and OO
 
 ### 2.6 POS tagging: Plank, Søgaard, and Goldberg
 
-**Source anchor:** `Plank, Søgaard, and Goldberg (2016), Multilingual Part-of-Speech Tagging with Bidirectional LSTM Models and Auxiliary Loss.pdf`, Section 1, **Introduction**; Section 3.1, **Datasets**; Section 3.2, **Results**; Section 4, **Related Work**; and Section 5, **Conclusions**.
+**Source anchor:** `06_plank_2016_multilingual_pos_bilstm.pdf`, Section 1, **Introduction**; Section 3.1, **Datasets**; Section 3.2, **Results**; Section 4, **Related Work**; and Section 5, **Conclusions**.
 
 This is the most directly POS-focused Phase 2 paper in the folder. It studies BiLSTM POS tagging across languages and considers auxiliary supervision. The main project lessons are:
 
@@ -190,7 +190,7 @@ $$
 
 The square brackets mean concatenation. Do not add vectors with different dimensions.
 
-**Source anchor:** `Lample et al. (2016)...pdf`, Section 4.1; `Ma and Hovy (2016)...pdf`, Section 2.1. The character BiLSTM choice is a project implementation option; Ma and Hovy use a character CNN.
+**Source anchor:** `04_lample_2016_neural_architectures_ner.pdf`, Section 4.1; `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 2.1. The character BiLSTM choice is a project implementation option; Ma and Hovy use a character CNN.
 
 ### 3.2 Optional character CNN
 
@@ -208,7 +208,7 @@ $$
 
 Use several filter widths and concatenate their pooled outputs if the experiment requires multiple character patterns.
 
-**Source anchor:** `Ma and Hovy (2016)...pdf`, Section 2.1, **CNN for Character-level Representation**. Do not claim that a character CNN and character BiLSTM are the same method. They solve the same representation problem with different encoders.
+**Source anchor:** `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 2.1, **CNN for Character-level Representation**. Do not claim that a character CNN and character BiLSTM are the same method. They solve the same representation problem with different encoders.
 
 ### 3.3 LSTM cell
 
@@ -242,7 +242,7 @@ Here $\sigma$ is the sigmoid function and $\odot$ is element-wise multiplication
 
 The forget gate controls retained memory. The input gate controls new content. The output gate controls the exposed hidden state.
 
-**Source anchor:** `HorchreiterSchmidhuber_LSTM.pdf`, Section 3, **Long Short-Term Memory**; `Ma and Hovy (2016)...pdf`, Section 2.2.1, **LSTM Unit**.
+**Source anchor:** `01_hochreiter_schmidhuber_1997_lstm.pdf`, Section 3, **Long Short-Term Memory**; `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 2.2.1, **LSTM Unit**.
 
 ### 3.4 Bidirectional encoding
 
@@ -264,7 +264,7 @@ $$
 
 The output dimension is twice the single-direction hidden dimension unless a projection is applied.
 
-**Source anchor:** `Graves and Schmidhuber (2005)...pdf`, Section II, **Bidirectional Recurrent Neural Nets**; `Ma and Hovy (2016)...pdf`, Section 2.2.2, **BLSTM**.
+**Source anchor:** `02_graves_schmidhuber_2005_bilstm.pdf`, Section II, **Bidirectional Recurrent Neural Nets**; `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 2.2.2, **BLSTM**.
 
 ```mermaid
 flowchart LR
@@ -304,7 +304,7 @@ $$
 
 This classifier predicts each position using a contextual representation. Unlike the HMM, it does not explicitly multiply transition and emission probabilities.
 
-**Source anchor:** `Lample et al. (2016)...pdf`, Sections 2.1 and 2.3; `Huang, Z., Xu, W., & Yu, K. (2015)...pdf`, Sections 2.1-2.2.
+**Source anchor:** `04_lample_2016_neural_architectures_ner.pdf`, Sections 2.1 and 2.3; `03_huang_xu_yu_2015_bilstm_crf.pdf`, Sections 2.1-2.2.
 
 ## 4. Padding and Masked Loss
 
@@ -336,7 +336,7 @@ Padding positions must not contribute to the numerator or denominator. In PyTorc
 
 For a CRF, the mask must be passed to the CRF forward score, partition-function calculation, and decode operation. Do not compute a CRF score over padding positions.
 
-**Source anchor:** the need for sequence-aware training and decoding is discussed in `Huang, Z., Xu, W., & Yu, K. (2015)...pdf`, Section 3, **Training procedure**, and `Ma and Hovy (2016)...pdf`, Section 3, **Network Training**. The mask equation is the project implementation rule required by the project specification.
+**Source anchor:** the need for sequence-aware training and decoding is discussed in `03_huang_xu_yu_2015_bilstm_crf.pdf`, Section 3, **Training procedure**, and `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 3, **Network Training**. The mask equation is the project implementation rule required by the project specification.
 
 ### Padding invariants
 
@@ -387,7 +387,7 @@ $$
 
 This decoding is Viterbi-like, but the scores come from neural emissions and learned tag transitions.
 
-**Source anchor:** `Huang, Z., Xu, W., & Yu, K. (2015)...pdf`, Sections 2.3-2.5; `Ma and Hovy (2016)...pdf`, Section 2.3, **CRF**, and Section 2.4, **BLSTM-CNNs-CRF**.
+**Source anchor:** `03_huang_xu_yu_2015_bilstm_crf.pdf`, Sections 2.3-2.5; `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 2.3, **CRF**, and Section 2.4, **BLSTM-CNNs-CRF**.
 
 ### When to use the CRF
 
@@ -424,7 +424,7 @@ Use a documented initialization method. For a first model:
 - set random seeds for Python, NumPy, and PyTorch;
 - record whether deterministic algorithms are enabled.
 
-**Source anchor:** `Ma and Hovy (2016)...pdf`, Section 3.1, **Parameter Initialization**; `Lample et al. (2016)...pdf`, Section 2.3, **Parameterization and Training**.
+**Source anchor:** `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 3.1, **Parameter Initialization**; `04_lample_2016_neural_architectures_ner.pdf`, Section 2.3, **Parameterization and Training**.
 
 ### 6.3 Optimization
 
@@ -448,7 +448,7 @@ flowchart TB
 
 Use early stopping based on a development metric selected before training. Save the best checkpoint, not only the final epoch.
 
-**Source anchor:** `Ma and Hovy (2016)...pdf`, Section 3.2, **Optimization Algorithm**, and Section 3.3, **Tuning Hyper-Parameters**; `Lample et al. (2016)...pdf`, Section 4.3, **Dropout training**.
+**Source anchor:** `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 3.2, **Optimization Algorithm**, and Section 3.3, **Tuning Hyper-Parameters**; `04_lample_2016_neural_architectures_ner.pdf`, Section 4.3, **Dropout training**.
 
 ### 6.4 Dropout
 
@@ -532,7 +532,7 @@ Padding positions must be excluded from every metric.
 
 ### 8.2 OOV analysis
 
-**Source anchor:** `Ma and Hovy (2016)...pdf`, Section 4.6, **OOV Error Analysis**. Use the source as motivation for a separate OOV analysis, but define OOV using this project's training vocabulary.
+**Source anchor:** `05_ma_hovy_2016_bilstm_cnn_crf.pdf`, Section 4.6, **OOV Error Analysis**. Use the source as motivation for a separate OOV analysis, but define OOV using this project's training vocabulary.
 
 For each prediction, retain:
 

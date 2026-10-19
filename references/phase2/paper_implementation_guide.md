@@ -73,6 +73,8 @@ The training vocabulary contains 19,674 word types. Development and test contain
 
 ## Source
 
+**PDF:** `01_hochreiter_schmidhuber_1997_lstm.pdf`
+
 **Paper:** *Long Short-Term Memory*
 
 **Relevant sections:**
@@ -208,6 +210,8 @@ The project does not need to reproduce the original memory-copying experiments. 
 
 ## Source
 
+**PDF:** `02_graves_schmidhuber_2005_bilstm.pdf`
+
 **Paper:** *Framewise Phoneme Classification with Bidirectional LSTM and Other Neural Network Architectures*
 
 **Relevant sections:**
@@ -314,6 +318,8 @@ The project does not need to reproduce phoneme classification. The paper provide
 
 ## Source
 
+**PDF:** `03_huang_xu_yu_2015_bilstm_crf.pdf`
+
 **Paper:** *Bidirectional LSTM-CRF Models for Sequence Tagging*
 
 **Relevant sections:**
@@ -405,6 +411,8 @@ First establish a correct BiLSTM with token-level cross-entropy loss.
 # 4. Lample et al. (2016)
 
 ## Source
+
+**PDF:** `04_lample_2016_neural_architectures_ner.pdf`
 
 **Paper:** *Neural Architectures for Named Entity Recognition*
 
@@ -518,6 +526,8 @@ If pretrained embeddings are used later, record:
 
 ## Source
 
+**PDF:** `05_ma_hovy_2016_bilstm_cnn_crf.pdf`
+
 **Paper:** *End-to-End Sequence Labeling via Bi-directional LSTM-CNNs-CRF*
 
 **Relevant sections:**
@@ -630,6 +640,8 @@ Do not assume that a CRF is required just because the paper uses one. The projec
 # 6. Plank, Søgaard, and Goldberg (2016)
 
 ## Source
+
+**PDF:** `06_plank_2016_multilingual_pos_bilstm.pdf`
 
 **Paper:** *Multilingual Part-of-Speech Tagging with Bidirectional Long Short-Term Memory Models and Auxiliary Loss*
 
