@@ -1,51 +1,60 @@
-def load_conllu(path):
-    sentences = []
-    sentence = []
+"""Utilities for loading and validating Universal Dependencies data."""
 
-    with open(path, "r", encoding="utf-8") as file:
-        for line in file:
-            line = line.rstrip("\n")
+
+def load_conllu(path):
+    """Load word and universal POS-tag pairs from a CoNLL-U file.
+
+    Comments and multiword or empty-node entries are ignored. Sentences are
+    separated by blank lines and returned as lists of ``(word, tag)`` pairs.
+    """
+    sentences = []
+    current_sentence = []
+
+    with open(path, "r", encoding="utf-8") as data_file:
+        for raw_line in data_file:
+            line = raw_line.rstrip("\n")
 
             if not line:
-                if sentence:
-                    sentences.append(sentence)
-                    sentence = []
+                if current_sentence:
+                    sentences.append(current_sentence)
+                    current_sentence = []
                 continue
 
             if line.startswith("#"):
                 continue
 
-            fields = line.split("\t")
+            columns = line.split("\t")
 
-            if len(fields) != 10:
+            if len(columns) != 10:
                 raise ValueError(f"Invalid CoNLL-U line: {line}")
 
-            token_id = fields[0]
-            form = fields[1]
-            upos = fields[3]
+            token_id = columns[0]
+            word = columns[1]
+            pos_tag = columns[3]
 
             if "-" in token_id or "." in token_id:
                 continue
 
-            sentence.append((form, upos))
+            current_sentence.append((word, pos_tag))
 
-    if sentence:
-        sentences.append(sentence)
+    if current_sentence:
+        sentences.append(current_sentence)
 
     return sentences
 
 
 def extract_words_tags(sentences):
+    """Split sentence token pairs into parallel word and tag lists."""
     words = []
     tags = []
 
-    for sentence in sentences:
+    for token_sentence in sentences:
         sentence_words = []
         sentence_tags = []
 
-        for word, tag in sentence:
+        for word, pos_tag in token_sentence:
             sentence_words.append(word)
-            sentence_tags.append(tag)
+            sentence_tags.append(pos_tag)
 
         words.append(sentence_words)
         tags.append(sentence_tags)
@@ -54,27 +63,29 @@ def extract_words_tags(sentences):
 
 
 def get_tokens(sentences):
-    return [token for sentence in sentences for token in sentence]
+    """Flatten sentence-level token pairs into one list."""
+    return [token for token_sentence in sentences for token in token_sentence]
 
 
 def validate_sentences(sentences):
+    """Raise ``ValueError`` if sentences contain invalid token data."""
     if not sentences:
         raise ValueError("No sentences were loaded")
 
-    for sentence_index, sentence in enumerate(sentences):
-        if not sentence:
+    for sentence_index, token_sentence in enumerate(sentences):
+        if not token_sentence:
             raise ValueError(
                 f"Empty sentence at index {sentence_index}"
             )
 
-        for token_index, token in enumerate(sentence):
+        for token_index, token in enumerate(token_sentence):
             if len(token) != 2:
                 raise ValueError(
                     f"Invalid token at sentence {sentence_index}, "
                     f"token {token_index}"
                 )
 
-            word, tag = token
+            word, pos_tag = token
 
             if not word:
                 raise ValueError(
@@ -82,7 +93,7 @@ def validate_sentences(sentences):
                     f"token {token_index}"
                 )
 
-            if not tag:
+            if not pos_tag:
                 raise ValueError(
                     f"Empty POS tag at sentence {sentence_index}, "
                     f"token {token_index}"
