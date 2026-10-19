@@ -1,4 +1,31 @@
 """Utilities for loading and validating Universal Dependencies data."""
+import re
+
+UPOS_TAGS = frozenset(
+    {
+        "ADJ",
+        "ADP",
+        "ADV",
+        "AUX",
+        "CCONJ",
+        "DET",
+        "INTJ",
+        "NOUN",
+        "NUM",
+        "PART",
+        "PRON",
+        "PROPN",
+        "PUNCT",
+        "SCONJ",
+        "SYM",
+        "VERB",
+        "X",
+    }
+)
+
+INTEGER_ID_PATTERN = re.compile(r"^\d+$")
+MULTIWORD_ID_PATTERN = re.compile(r"^\d+-\d+$")
+EMPTY_NODE_ID_PATTERN = re.compile(r"^\d+\.\d+$")
 
 
 def load_conllu(path):
@@ -12,7 +39,7 @@ def load_conllu(path):
 
     with open(path, "r", encoding="utf-8") as data_file:
         for raw_line in data_file:
-            line = raw_line.rstrip("\n")
+            line = raw_line.rstrip("\r\n")
 
             if not line:
                 if current_sentence:
@@ -32,8 +59,14 @@ def load_conllu(path):
             word = columns[1]
             pos_tag = columns[3]
 
-            if "-" in token_id or "." in token_id:
+            if MULTIWORD_ID_PATTERN.fullmatch(token_id):
                 continue
+            
+            if EMPTY_NODE_ID_PATTERN.fullmatch(token_id):
+                continue
+            
+            if not INTEGER_ID_PATTERN.fullmatch(token_id):
+                raise ValueError(f"Invalid token ID: {token_id}")
 
             current_sentence.append((word, pos_tag))
 
@@ -97,4 +130,16 @@ def validate_sentences(sentences):
                 raise ValueError(
                     f"Empty POS tag at sentence {sentence_index}, "
                     f"token {token_index}"
+                )
+                
+def validate_upos_tags(sentences, allowed_tags=UPOS_TAGS):
+    """Raise ValueError if a sentence contains an unknown UPOS tag."""
+    for sentence_index, token_sentence in enumerate(sentences):
+        for token_index, token in enumerate(token_sentence):
+            _, pos_tag = token
+
+            if pos_tag not in allowed_tags:
+                raise ValueError(
+                    f"Invalid UPOS tag '{pos_tag}' at "
+                    f"sentence {sentence_index}, token {token_index}"
                 )

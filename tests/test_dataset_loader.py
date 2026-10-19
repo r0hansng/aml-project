@@ -6,9 +6,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.dataset_loader import (
-	extract_words_tags,
-	load_conllu,
-	validate_sentences,
+    extract_words_tags,
+    load_conllu,
+    validate_sentences,
+    validate_upos_tags,
 )
 
 train_sentences = load_conllu("data/train.conllu")
@@ -16,8 +17,13 @@ dev_sentences = load_conllu("data/dev.conllu")
 test_sentences = load_conllu("data/test.conllu")
 
 validate_sentences(train_sentences)
+validate_upos_tags(train_sentences)
+
 validate_sentences(dev_sentences)
+validate_upos_tags(dev_sentences)
+
 validate_sentences(test_sentences)
+validate_upos_tags(test_sentences)
 
 train_words, train_tags = extract_words_tags(train_sentences)
 
