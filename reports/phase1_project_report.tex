@@ -1,0 +1,334 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=blue
+}
+
+\begin{document}
+
+\title{Project 16: Part-of-Speech Tagging: Hidden Markov Model vs Bidirectional LSTM Tagger \\ \\
+\Large Phase 1 Baseline: Generative HMM and Rigorous Evaluation on UD English-EWT}
+
+\author{
+\IEEEauthorblockN{
+Rohan Singh\IEEEauthorrefmark{1},
+Aniket Pathak\IEEEauthorrefmark{2},
+Pushpendra Singh Parihar\IEEEauthorrefmark{3},
+Kapil Karan Mathur\IEEEauthorrefmark{4}, and
+Agrim Kumar Malhotra\IEEEauthorrefmark{5}
+}
+\IEEEauthorblockA{
+\textbf{Team ID:} T058 \quad \textbf{Section:} A \\
+\textbf{Emails: }\IEEEauthorrefmark{1}rohan.singh2024@nst.rishihood.edu.in,
+\IEEEauthorrefmark{2}aniket.pathak2024@nst.rishihood.edu.in,
+\IEEEauthorrefmark{3}pushpendra.parihar2024@nst.rishihood.edu.in, \\
+\IEEEauthorrefmark{4}kapil.mathur2024@nst.rishihood.edu.in,
+\IEEEauthorrefmark{5}agrim.malhotra2024@nst.rishihood.edu.in \\
+\textbf{Project Repository: }\url{https://github.com/r0hansng/aml-project}
+}
+}
+
+\maketitle
+
+\begin{abstract}
+Part-of-Speech (POS) tagging is a fundamental sequence labeling task that maps natural language sentences into grammatical category sequences. In this Phase~1 investigation, we formulate, calibrate, and evaluate a generative First-Order Hidden Markov Model (HMM) on the Universal Dependencies English Web Treebank (UD English-EWT, v2.18). We resolve three core challenges in statistical sequence modeling: structural boundary modeling via dedicated $\langle\text{START}\rangle$ and $\langle\text{END}\rangle$ context states, parameter estimation under data sparsity via Laplace add-$\alpha$ smoothing, and unknown-word evaluation integrity via strict separation between the empirical training vocabulary $V_{\text{original}}$ ($19,674$ distinct types) and the model vocabulary $V_{\text{model}}$ ($19,675$ entries including $\langle\text{UNK}\rangle$). Sequence decoding is executed in exact log-space via the Viterbi dynamic programming trellis. Using strict split discipline, we tune the smoothing parameter on the development split, selecting $\alpha^* = 0.10$. On the isolated official test set ($25,094$ tokens), the model achieves $87.59\%$ overall token accuracy, $0.7944$ macro-averaged $F_1$, and $30.98\%$ unknown-word accuracy across $2,292$ out-of-vocabulary tokens ($9.13\%$ test OOV rate). We provide fine-grained per-tag metrics, linguistic confusion analysis, qualitative inference evaluations on film dialogues, and establish the theoretical foundation for Phase~2 Bidirectional LSTM and hybrid neural sequence labeling.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Part-of-Speech Tagging, Hidden Markov Model, Viterbi Algorithm, Add-$\alpha$ Smoothing, Universal Dependencies, Sequence Labeling, Out-of-Vocabulary Evaluation.
+\end{IEEEkeywords}
+
+\section{Introduction}
+Assigning part-of-speech (POS) tags to words is an essential preprocessing step for downstream language understanding, syntactic parsing, and semantic information extraction. Under the Universal Dependencies (UD) framework~\cite{nivre2020universal}, tokens are annotated using a cross-linguistically consistent inventory of $17$ Universal POS (UPOS) categories.
+
+Formally, given an observation sequence of tokens $W = (w_1, w_2, \dots, w_n)$, the sequence labeling objective seeks the tag sequence $\hat{T} = (t_1, t_2, \dots, t_n) \in S^n$ that maximizes the joint posterior probability:
+\begin{equation}
+\hat{T} = \arg\max_{T \in S^n} P(T \mid W) = \arg\max_{T \in S^n} P(W, T)
+\end{equation}
+Direct exploration of this space requires searching over $|S|^n = 17^n$ sequences, which is computationally intractable for sentences exceeding 10 words.
+
+In Phase~1 of this project, we implement a mathematically grounded First-Order HMM baseline~\cite{rabiner1989tutorial, church1988stochastic} on the English Web Treebank (EWT)~\cite{silveira2014gold}. We introduce three core engineering solutions:
+\begin{enumerate}
+    \item \textbf{Dual-Vocabulary Separation}: Enforcing strict mathematical isolation between the pure empirical training vocabulary ($V_{\text{original}}$) and the model parameter vocabulary ($V_{\text{model}}$), preventing evaluation data leakage.
+    \item \textbf{Laplace Add-$\alpha$ Smoothing}: Formulating additive smoothing on both transition and emission distributions with explicit boundary normalization~\cite{brants2000tnt}.
+    \item \textbf{Log-Space Viterbi Trellis}: Formulating the dynamic programming recurrence in logarithmic space to eliminate floating-point underflow~\cite{jurafsky2026sequence}.
+\end{enumerate}
+
+\section{Related Work}
+Our methodology synthesizes principles from foundational sequence modeling literature:
+\begin{itemize}
+    \item \textbf{Nivre et al. (2020)}~\cite{nivre2020universal}: Defines the canonical $17$-tag UPOS standard.
+    \item \textbf{Silveira et al. (2014)}~\cite{silveira2014gold}: Establishes the gold-standard English Web Treebank splits ($12,544$ train, $2,001$ dev, $2,077$ test sentences across 5 web domains) and CoNLL-U format constraints.
+    \item \textbf{Church (1988)}~\cite{church1988stochastic}: Establishes the stochastic factorization of sequence tagging into local tag transitions and lexical word emissions.
+    \item \textbf{Rabiner (1989)}~\cite{rabiner1989tutorial}: Formulates HMM parameterization $\lambda = (S, V, A, B, \pi)$ and dynamic programming Viterbi decoding.
+    \item \textbf{Brants (2000)}~\cite{brants2000tnt}: Proposes boundary tokens ($\langle\text{START}\rangle, \langle\text{END}\rangle$), frequency-based lexicon pruning, and additive smoothing.
+    \item \textbf{Manning et al. (2008)}~\cite{manning2008introduction}: Mandates strict train/dev/test split isolation.
+    \item \textbf{Sokolova \& Lapalme (2009)}~\cite{sokolova2009systematic}: Proves that macro-averaged $F_1$ and confusion matrices are essential for evaluating skewed multi-class distributions.
+\end{itemize}
+
+\section{Corpus Properties and Exploratory Analysis}
+The UD English-EWT dataset consists of informal and formal web text. Our exploratory data analysis revealed critical statistical properties across partitions, summarized in Table~\ref{tab:splits}.
+
+\begin{table}[htbp]
+\caption{EWT Split Statistics and Out-of-Vocabulary Distribution}
+\label{tab:splits}
+\centering
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Split} & \textbf{Sentences} & \textbf{Tokens} & \textbf{Mean L} & \textbf{OOV Types} & \textbf{OOV Token \%} \\
+\midrule
+Train & 12,544 & 204,578 & 16.31 & --- & --- \\
+Dev   &  2,001 &  25,148 & 12.57 & 1,661 & 8.30\% \\
+Test  &  2,077 &  25,094 & 12.08 & 1,836 & 9.13\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Zipfian Class Imbalance}
+The tag frequency distribution in the training corpus is acutely skewed. Nominals (\texttt{NOUN}, $34,751$ tokens; $16.99\%$), punctuation (\texttt{PUNCT}, $23,710$; $11.59\%$), and verbs (\texttt{VERB}, $23,080$; $11.28\%$) constitute nearly $40\%$ of the corpus. Conversely, tail categories such as interjections (\texttt{INTJ}, $935$; $0.46\%$), symbols (\texttt{SYM}, $524$; $0.26\%$), and unclassified/foreign tokens (\texttt{X}, $400$; $0.20\%$) comprise under $1\%$. Consequently, global accuracy alone is an insufficient measure of model quality.
+
+\subsection{Lexical Ambiguity}
+A total of $1,973$ distinct word types in the training set appear with two or more UPOS tags. Highly frequent words exhibit substantial ambiguity (e.g., \textit{that} occurs as \texttt{SCONJ}, \texttt{PRON}, \texttt{DET}, and \texttt{ADV}). Resolving this ambiguity requires sequence context, which the HMM provides via state transition probabilities $P(t_k \mid t_{k-1})$.
+
+\section{Methodology and Model Architecture}
+\label{sec:methodology}
+
+\subsection{Dual-Vocabulary Disciplinary Separation}
+To guarantee evaluation integrity, we enforce two separate vocabulary representations:
+\begin{itemize}
+    \item $V_{\text{original}}$: The pure empirical training vocabulary containing all $19,674$ distinct word types observed in \texttt{train.conllu}. It strictly excludes $\langle\text{UNK}\rangle$.
+    \item $V_{\text{model}}$: The model vocabulary consisting of words meeting the minimum frequency threshold ($\ge 1$) plus the special out-of-vocabulary symbol $\langle\text{UNK}\rangle$ ($|V_{\text{model}}| = 19,675$).
+\end{itemize}
+When evaluating out-of-vocabulary performance on unseen data, a token $w$ is defined as unknown if and only if $w \notin V_{\text{original}}$.
+
+\subsection{HMM Generative Parameterization}
+Under the first-order Markov assumption and output independence, the joint probability factorizes as:
+\begin{equation}
+\begin{aligned}
+P(W, T) = & P(t_1 \mid \langle\text{START}\rangle) P(w_1 \mid t_1) \\
+& \cdot \prod_{k=2}^n P(t_k \mid t_{k-1}) P(w_k \mid t_k) \cdot P(\langle\text{END}\rangle \mid t_n)
+\end{aligned}
+\end{equation}
+
+Transition probabilities are smoothed via add-$\alpha$:
+\begin{equation}
+P(t_j \mid t_i) = \frac{C(t_i, t_j) + \alpha}{C(t_i) + \alpha \cdot |S_{\text{next}}|}
+\end{equation}
+where $|S_{\text{next}}| = 17$ for $t_i = \langle\text{START}\rangle$, and $|S_{\text{next}}| = 18$ for $t_i \in S$ (including $\langle\text{END}\rangle$).
+
+Emission probabilities are similarly smoothed:
+\begin{equation}
+P(w \mid t_i) = \frac{C(t_i, w) + \alpha}{C(t_i) + \alpha \cdot |V_{\text{model}}|}
+\end{equation}
+where $|V_{\text{model}}| = 19,675$.
+
+\subsection{Log-Space Viterbi Trellis Algorithm}
+To prevent numerical underflow, the dynamic programming recurrence is evaluated strictly in log-space. The complete decoding procedure is specified in Algorithm~\ref{alg:viterbi}.
+
+\begin{algorithm}[htbp]
+\caption{Log-Space Viterbi Trellis Decoding}
+\label{alg:viterbi}
+\begin{algorithmic}[1]
+\REQUIRE Sequence $W = (w_1, \dots, w_n)$, state set $S$, log transitions $\log A$, log emissions $\log B$.
+\ENSURE Optimal state sequence $\hat{T} = (\hat{t}_1, \dots, \hat{t}_n)$.
+\STATE \textbf{Initialization ($t = 1$):}
+\FORALL{$j \in S$}
+    \STATE $w_1' \leftarrow w_1 \text{ if } w_1 \in V_{\text{model}} \text{ else } \langle\text{UNK}\rangle$
+    \STATE $v_1(j) \leftarrow \log A[\langle\text{START}\rangle, j] + \log B[j, w_1']$
+\ENDFOR
+\STATE \textbf{Recursion ($t = 2, \dots, n$):}
+\FOR{$t = 2$ \TO $n$}
+    \STATE $w_t' \leftarrow w_t \text{ if } w_t \in V_{\text{model}} \text{ else } \langle\text{UNK}\rangle$
+    \FORALL{$j \in S$}
+        \STATE $bp_t(j) \leftarrow \arg\max_{i \in S} \left( v_{t-1}(i) + \log A[i, j] \right)$
+        \STATE $v_t(j) \leftarrow \max_{i \in S} \left( v_{t-1}(i) + \log A[i, j] \right) + \log B[j, w_t']$
+    \ENDFOR
+\ENDFOR
+\STATE \textbf{Termination:}
+\STATE $\hat{t}_n \leftarrow \arg\max_{j \in S} \left( v_n(j) + \log A[j, \langle\text{END}\rangle] \right)$
+\STATE \textbf{Backtracking:}
+\FOR{$t = n-1$ \DOWNTO $1$}
+    \STATE $\hat{t}_t \leftarrow bp_{t+1}(\hat{t}_{t+1})$
+\ENDFOR
+\RETURN $\hat{T} = (\hat{t}_1, \dots, \hat{t}_n)$
+\end{algorithmic}
+\end{algorithm}
+
+This formulation guarantees exact global MAP decoding in $\mathcal{O}(T \cdot |S|^2)$ time and $\mathcal{O}(T \cdot |S|)$ auxiliary space.
+
+\section{Experiments and Results}
+\label{sec:experiments}
+
+\subsection{Hyperparameter Tuning on Development Split}
+Following Manning et al.~\cite{manning2008introduction}, the smoothing parameter $\alpha \in \{0.01, 0.1, 1.0\}$ was tuned strictly on the development set:
+
+\begin{table}[htbp]
+\caption{Hyperparameter Tuning Results on Development Split}
+\label{tab:tuning}
+\centering
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Smoothing} $\alpha$ & \textbf{Token Acc (\%)} & \textbf{Macro} $F_1$ & \textbf{Unknown Acc (\%)} \\
+\midrule
+$\alpha = 0.01$ & 87.13\% & 0.7716 & 24.92\% \\
+\textbf{$\alpha = 0.10$ (Selected)} & \textbf{87.41\%} & \textbf{0.7817} & \textbf{29.52\%} \\
+$\alpha = 1.00$ & 84.52\% & 0.7491 & 33.45\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The optimal value $\alpha^* = 0.10$ maximizes both Token Accuracy ($87.41\%$) and Macro $F_1$ ($0.7817$). Standard Laplace smoothing ($\alpha = 1.0$) overly diffuses probability mass over the large vocabulary ($19,675$ items), causing a sharp $2.89\%$ drop in token accuracy.
+
+\subsection{Final Test Set Performance}
+Evaluating the frozen optimal model ($\alpha^* = 0.10$) once on the test partition ($2,077$ sentences, $25,094$ tokens) yields:
+\begin{itemize}
+    \item \textbf{Overall Token Accuracy}: $\mathbf{87.59\%}$
+    \item \textbf{Macro-Averaged $F_1$}: $\mathbf{0.7944}$
+    \item \textbf{Unknown-Word Accuracy}: $\mathbf{30.98\%}$ ($670 / 2,292$ correct)
+    \item \textbf{Unknown Tokens Evaluated}: $2,292$ ($9.13\%$ OOV rate)
+\end{itemize}
+
+The complete per-tag performance breakdown is reported in Table~\ref{tab:per_tag}.
+
+\begin{table}[htbp]
+\caption{Detailed Per-Tag Classification Report on Official Test Set}
+\label{tab:per_tag}
+\centering
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Tag} & \textbf{Precision} & \textbf{Recall} & \textbf{$F_1$-Score} & \textbf{Support} \\
+\midrule
+\texttt{CCONJ} & 0.97 & 0.98 & \textbf{0.98} & 736 \\
+\texttt{PRON}  & 0.93 & 0.97 & \textbf{0.95} & 2,164 \\
+\texttt{PUNCT} & 0.93 & 0.98 & \textbf{0.95} & 3,096 \\
+\texttt{DET}   & 0.91 & 0.97 & \textbf{0.94} & 1,897 \\
+\texttt{AUX}   & 0.89 & 0.98 & \textbf{0.93} & 1,543 \\
+\texttt{ADP}   & 0.89 & 0.94 & \textbf{0.92} & 2,025 \\
+\texttt{PART}  & 0.86 & 0.93 & \textbf{0.90} & 649 \\
+\texttt{VERB}  & 0.91 & 0.86 & \textbf{0.89} & 2,605 \\
+\texttt{NOUN}  & 0.92 & 0.82 & \textbf{0.87} & 4,123 \\
+\texttt{ADJ}   & 0.87 & 0.84 & \textbf{0.85} & 1,788 \\
+\texttt{ADV}   & 0.81 & 0.85 & \textbf{0.83} & 1,191 \\
+\texttt{NUM}   & 0.78 & 0.69 & \textbf{0.73} & 542 \\
+\texttt{PROPN} & 0.83 & 0.61 & \textbf{0.70} & 2,075 \\
+\texttt{SCONJ} & 0.70 & 0.69 & \textbf{0.69} & 384 \\
+\texttt{INTJ}  & 0.58 & 0.79 & \textbf{0.66} & 121 \\
+\texttt{SYM}   & 0.50 & 0.80 & \textbf{0.62} & 113 \\
+\texttt{X}     & 0.05 & 0.52 & \textbf{0.10} & 42 \\
+\midrule
+\textbf{Macro Avg} & \textbf{0.78} & \textbf{0.84} & \textbf{0.79} & \textbf{25,094} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Error Analysis and Confusion Dynamics}
+Inspection of the test set confusion matrix reveals dominant linguistic failure modes:
+\begin{enumerate}
+    \item \textbf{\texttt{NOUN} $\rightarrow$ \texttt{PROPN}} ($161$ errors) and \textbf{\texttt{PROPN} $\rightarrow$ \texttt{NOUN}} ($153$ errors): Web text exhibits capitalization noise (all-caps titles, uncapitalized internet slang, product names).
+    \item \textbf{\texttt{PROPN} $\rightarrow$ \texttt{X}} ($136$ errors): Rare named entities, foreign names, and web handles are misclassified into the catch-all category.
+    \item \textbf{\texttt{PROPN} $\rightarrow$ \texttt{PUNCT}} ($118$ errors): Acronyms containing internal periods and web tokens containing punctuation.
+    \item \textbf{\texttt{NOUN} $\rightarrow$ \texttt{X}} ($112$ errors): Informal typos and colloquial web jargon unobserved in standard training text.
+\end{enumerate}
+
+\section{Qualitative Demonstrations}
+We evaluated qualitative inference on stylized dialogue from David Fincher's \textit{The Social Network} (2010), reported in Table~\ref{tab:fincher_demo}.
+
+\begin{table}[htbp]
+\caption{Qualitative Evaluation on Fincher Dialogue Sequence}
+\label{tab:fincher_demo}
+\centering
+\begin{tabular}{lllp{3.2cm}}
+\toprule
+\textbf{Token} & \textbf{Pred} & \textbf{Status} & \textbf{Syntactic Note} \\
+\midrule
+If        & \texttt{SCONJ} & Known & Subordinate conditional marker. \\
+you       & \texttt{PRON}  & Known & 2nd person subject pronoun. \\
+guys      & \texttt{NOUN}  & Known & Plural colloquial nominal. \\
+were      & \texttt{AUX}   & Known & Subjunctive copular auxiliary. \\
+the       & \texttt{DET}   & Known & Definite article. \\
+inventors & \textbf{\texttt{NOUN}} & \textbf{UNK} & \textbf{True OOV}: correctly resolved via $P(\texttt{NOUN} \mid \texttt{DET})$. \\
+of        & \texttt{ADP}   & Known & Preposition introducing PP. \\
+Facebook  & \texttt{PROPN} & Known & Proper named entity noun. \\
+,         & \texttt{PUNCT} & Known & Clause delimiter. \\
+you       & \texttt{PRON}  & Known & Matrix subject pronoun. \\
+would     & \texttt{AUX}   & Known & Modal auxiliary verb. \\
+have      & \texttt{AUX}   & Known & Perfect auxiliary verb. \\
+invented  & \texttt{VERB}  & Known & Past participle main verb. \\
+Facebook  & \texttt{PROPN} & Known & Direct object named entity. \\
+.         & \texttt{PUNCT} & Known & Sentence-final delimiter. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The token \textit{inventors} is an out-of-vocabulary word ($w \notin V_{\text{original}}$). Despite zero lexical counts, the HMM correctly resolves it as \texttt{NOUN} due to the strong transition prior from the preceding determiner \textit{the} ($P(\texttt{NOUN} \mid \texttt{DET}) = 0.61$).
+
+\section{Roadmap to Phase 2: BiLSTM and Hybrid Tagging}
+While the first-order HMM performs strongly on closed-class words ($F_1 > 94\%$), its $30.98\%$ unknown-word accuracy highlights fundamental Markovian limitations:
+\begin{enumerate}
+    \item \textbf{Finite Context Horizon}: $P(t_k \mid t_{k-1})$ cannot capture long-range grammatical agreements across subordinate clauses.
+    \item \textbf{Emission Independence}: Unigram word emissions discard subword morphology (e.g., \textit{-ing}, \textit{-tion}, \textit{-ed}).
+    \item \textbf{Coarse OOV Pooling}: All unknown words share identical emission probabilities.
+\end{enumerate}
+
+In Phase~2, we will implement a Bidirectional LSTM (BiLSTM) with pre-trained word embeddings and character-level subword representations. Furthermore, we will investigate a \textbf{Hybrid BiLSTM-CRF} architecture to combine dense continuous representations with structured transition decoding.
+
+\section{Team Division of Responsibilities}
+In accordance with course project instructions, the division of technical responsibilities for Team T058 is outlined below:
+\begin{itemize}
+    \item \textbf{Rohan Singh} (2401010391):
+    \item \textbf{Aniket Pathak} (2401020088):
+    \item \textbf{Pushpendra Singh Parihar} (2401010361):
+    \item \textbf{Kapil Karan Mathur} (2401010209):
+    \item \textbf{Agrim Kumar Malhotra} (2401010045):
+\end{itemize}
+
+\section{Conclusion}
+We have implemented, tuned, and evaluated a First-Order HMM POS tagger on UD English-EWT. By maintaining strict vocabulary separation, deriving smoothed boundary distributions, and decoding in log-space, the model achieves an $87.59\%$ test token accuracy and $0.7944$ macro $F_1$. All code, data pipelines, and test suites ($31$ automated unit tests) are reproducible and hosted in the public repository.
+
+\bibliographystyle{IEEEtran}
+\begin{thebibliography}{99}
+
+\bibitem{nivre2020universal}
+J.~Nivre et~al., ``Universal Dependencies v2: An even more useful treebank,'' in \emph{Proc. 12th LREC}, 2020, pp. 4034--4043.
+
+\bibitem{silveira2014gold}
+N.~Silveira et~al., ``A gold standard dependency corpus for English,'' in \emph{Proc. 9th LREC}, 2014, pp. 2897--2904.
+
+\bibitem{church1988stochastic}
+K.~W. Church, ``A stochastic parts program and noun phrase parser for unrestricted text,'' in \emph{Proc. 2nd ANLP}, 1988, pp. 136--143.
+
+\bibitem{rabiner1989tutorial}
+L.~R. Rabiner, ``A tutorial on Hidden Markov Models and selected applications in speech recognition,'' \emph{Proc. IEEE}, vol.~77, no.~2, pp. 257--286, 1989.
+
+\bibitem{brants2000tnt}
+T.~Brants, ``TnT: A statistical part-of-speech tagger,'' in \emph{Proc. 6th ANLP}, 2000, pp. 224--231.
+
+\bibitem{jurafsky2026sequence}
+D.~Jurafsky and J.~H. Martin, \emph{Speech and Language Processing}, 3rd~ed. draft, Chapter 18: Sequence Labeling for POS Tagging, 2026.
+
+\bibitem{manning2008introduction}
+C.~D. Manning, P.~Raghavan, and H.~Sch{\"u}tze, \emph{Introduction to Information Retrieval}, Cambridge Univ. Press, 2008.
+
+\bibitem{sokolova2009systematic}
+M.~Sokolova and G.~Lapalme, ``A systematic analysis of performance measures for classification tasks,'' \emph{Inf. Process. Manage.}, vol.~45, no.~4, pp. 427--437, 2009.
+
+\bibitem{huang2015bidirectional}
+Z.~Huang, W.~Xu, and K.~Yu, ``Bidirectional LSTM-CRF models for sequence tagging,'' \emph{arXiv preprint arXiv:1508.01991}, 2015.
+
+\end{thebibliography}
+
+\end{document}

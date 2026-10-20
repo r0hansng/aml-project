@@ -17,6 +17,23 @@ The project is structured into two main phases:
    - BiLSTM baseline with pre-trained word embeddings and character/subword representations.
    - Hybrid ML/DL architectural exploration and ablation studies.
 
+### Team Specifications
+
+| Property | Value |
+| :--- | :--- |
+| **Team ID** | **T058** |
+| **Section** | **A** |
+| **Project** | **Project 16**: Part-of-Speech Tagging: Hidden Markov Model vs Bidirectional LSTM Tagger |
+| **Degree** | **B. Tech in Computer Science & Artificial Intelligence** |
+| **Institution** | Newton School of Technology, Rishihood University |
+
+#### Team Members
+1. **Rohan Singh** (`2401010391`) — `rohan.singh2024@nst.rishihood.edu.in`
+2. **Aniket Pathak** (`2401020088`) — `aniket.pathak2024@nst.rishihood.edu.in`
+3. **Pushpendra Singh Parihar** (`2401010361`) — `pushpendra.parihar2024@nst.rishihood.edu.in`
+4. **Kapil Karan Mathur** (`2401010209`) — `kapil.mathur2024@nst.rishihood.edu.in`
+5. **Agrim Kumar Malhotra** (`2401010045`) — `agrim.malhotra2024@nst.rishihood.edu.in`
+
 ---
 
 ## Complete Project File Map
@@ -182,6 +199,19 @@ The interactive tagger (`notebooks/phase1_hmm.ipynb` Cell 26) evaluates iconic d
 - Fully executed and saved both notebooks with all cell outputs rendered.
 - Updated `README.md` and `memory.md` to reflect full project state.
 
+#### Session 5 — Phase 1 Project Report (Markdown & IEEE LaTeX)
+- Generated comprehensive Phase 1 Project Report in `reports/phase1_project_report.md` with:
+  - System architecture flowcharts and Bayesian network representations in Mermaid.
+  - Mathematical formalization of first-order joint decomposition, add-$\alpha$ Laplace smoothing, and log-space Viterbi dynamic programming trellis.
+  - Complete corpus statistics and Zipfian tag skew tables.
+  - Quantitative tuning and test performance tables (Token Acc 87.59%, Macro F1 0.7944, Unknown Acc 30.98%).
+  - Detailed per-tag classification report across all 17 UPOS classes.
+  - Linguistic confusion matrix error analysis (`NOUN` $\leftrightarrow$ `PROPN`, `PROPN` $\rightarrow$ `X`).
+  - Qualitative dialogue inference evaluation on David Fincher film quotes (*The Social Network*, *Fight Club*, *Se7en*).
+  - Theoretical roadmap and hybrid architectural proposals for Phase 2.
+  - Team division of responsibilities (5 members) and 4 core viva voce question-and-answer pairs.
+- Generated matching IEEE Conference formatted LaTeX report in `reports/phase1_project_report.tex` adhering strictly to course evaluation requirements.
+
 ---
 
 ## Current Pending Tasks (Transition to Phase 2)
@@ -197,6 +227,7 @@ The interactive tagger (`notebooks/phase1_hmm.ipynb` Cell 26) evaluates iconic d
    - Effect of bidirectional context (Forward LSTM vs. BiLSTM).
    - Effect of character-level subword representations on unknown-word accuracy.
    - Effect of pre-trained vs. randomly initialized embeddings.
-4. **Project Report & Presentation Preparation**:
+4. **Phase 2 Presentation & Report Drafting**:
    - Compile Phase 1 vs. Phase 2 comparative benchmark table.
-   - Prepare LaTeX / IEEE report draft incorporating theoretical justifications and confusion matrix error analyses.
+   - Finalize IEEE report with Deep Learning and Hybrid ablation results.
+

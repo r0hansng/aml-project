@@ -14,6 +14,23 @@ This repository implements:
 
 ---
 
+## Project & Team Specifications
+
+- **Project**: **Project 16**: Part-of-Speech Tagging: Hidden Markov Model vs Bidirectional LSTM Tagger
+- **Team ID**: **T058** | **Section**: **A**
+- **Degree Program**: **B. Tech in Computer Science & Artificial Intelligence**
+- **Institution**: Newton School of Technology, Rishihood University
+
+| # | Enrollment Number | Full Name | Institutional Email |
+| :-: | :---: | :--- | :--- |
+| 1 | `2401010391` | **Rohan Singh** | `rohan.singh2024@nst.rishihood.edu.in` |
+| 2 | `2401020088` | **Aniket Pathak** | `aniket.pathak2024@nst.rishihood.edu.in` |
+| 3 | `2401010361` | **Pushpendra Singh Parihar** | `pushpendra.parihar2024@nst.rishihood.edu.in` |
+| 4 | `2401010209` | **Kapil Karan Mathur** | `kapil.mathur2024@nst.rishihood.edu.in` |
+| 5 | `2401010045` | **Agrim Kumar Malhotra** | `agrim.malhotra2024@nst.rishihood.edu.in` |
+
+---
+
 ## Key Highlights
 
 - **Sentence-Preserving CoNLL-U Parser**: Strict 10-column validation extracting `FORM` and `UPOS` while properly filtering comments, multiword tokens (`1-2`), and empty nodes (`2.1`).
