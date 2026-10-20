@@ -56,6 +56,8 @@ aml-project/
 │   └── phase2/                   # Phase 2 reference papers (01_graves ... 06_vaswani)
 │       ├── paper_implementation_guide.md
 │       └── summary_phase2.md
+├── reports/                      # Academic deliverables & technical reports
+│   └── phase1_project_report.tex # IEEE Conference formatted Phase 1 project report
 ├── src/                          # Modular core package
 │   ├── dataset_loader.py         # CoNLL-U parser, token extraction, and UPOS validation
 │   ├── dataset_registry.py       # Official dataset paths & verification
@@ -199,18 +201,20 @@ The interactive tagger (`notebooks/phase1_hmm.ipynb` Cell 26) evaluates iconic d
 - Fully executed and saved both notebooks with all cell outputs rendered.
 - Updated `README.md` and `memory.md` to reflect full project state.
 
-#### Session 5 — Phase 1 Project Report (Markdown & IEEE LaTeX)
-- Generated comprehensive Phase 1 Project Report in `reports/phase1_project_report.md` with:
-  - System architecture flowcharts and Bayesian network representations in Mermaid.
-  - Mathematical formalization of first-order joint decomposition, add-$\alpha$ Laplace smoothing, and log-space Viterbi dynamic programming trellis.
-  - Complete corpus statistics and Zipfian tag skew tables.
-  - Quantitative tuning and test performance tables (Token Acc 87.59%, Macro F1 0.7944, Unknown Acc 30.98%).
-  - Detailed per-tag classification report across all 17 UPOS classes.
-  - Linguistic confusion matrix error analysis (`NOUN` $\leftrightarrow$ `PROPN`, `PROPN` $\rightarrow$ `X`).
-  - Qualitative dialogue inference evaluation on David Fincher film quotes (*The Social Network*, *Fight Club*, *Se7en*).
-  - Theoretical roadmap and hybrid architectural proposals for Phase 2.
-  - Team division of responsibilities (5 members) and 4 core viva voce question-and-answer pairs.
-- Generated matching IEEE Conference formatted LaTeX report in `reports/phase1_project_report.tex` adhering strictly to course evaluation requirements.
+#### Session 5 — Phase 1 Project Report (IEEE LaTeX Deliverable)
+- Authored publication-grade Phase 1 Project Report in `reports/phase1_project_report.tex` adhering strictly to course evaluation guidelines (IEEE Conference 2-column format):
+  - Standardized unified author block for Team T058, Section A, B. Tech in Computer Science & Artificial Intelligence, Rishihood University.
+  - Mathematical formalization of first-order Markov factorization, boundary modeling (`<START>`, `<END>`), and add-$\alpha$ Laplace smoothing.
+  - Complete Algorithm 1 environment for Log-Space Viterbi decoding with dynamic programming backpointer trellis.
+  - Corpus statistics on UD English-EWT with Zipfian token/tag distribution analysis.
+  - Empirical validation on isolated Test set: Token Accuracy 87.59%, Macro $F_1$ 0.7944, Unknown Accuracy 30.98% across 2,292 OOV tokens.
+  - Comprehensive per-tag classification report across all 17 UPOS classes with `booktabs` formatting.
+  - Detailed error and confusion dynamics analysis (`NOUN` $\leftrightarrow$ `PROPN`, `PROPN` $\rightarrow$ `X`, `PROPN` $\rightarrow$ `PUNCT`).
+  - Qualitative evaluation of David Fincher dialogue inference (*The Social Network*) demonstrating syntactic resolution of OOV nouns via determiner transition priors.
+  - Comprehensive theoretical roadmap and hybrid architecture proposals (BiLSTM-CRF, morphological embeddings) for Phase 2.
+  - Formatted team membership roster with technical contributions left unassigned for Phase 2 finalization.
+- Verified LaTeX syntax and complete nesting integrity; validated test suite (31/31 unit tests passing).
+- Committed official report in git commit `ad95663` ("add report").
 
 ---
 

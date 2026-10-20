@@ -65,6 +65,8 @@ aml-project/
 ├── references/                   # Standardized academic literature
 │   ├── phase1/                   # Phase 1 papers (Church, Rabiner, Brants, Sokolova, etc.)
 │   └── phase2/                   # Phase 2 papers (BiLSTM, word embeddings, hybrid models)
+├── reports/                      # Academic deliverables & technical reports
+│   └── phase1_project_report.tex # IEEE Conference formatted Phase 1 project report
 ├── src/                          # Modular core package
 │   ├── dataset_loader.py         # CoNLL-U loader and UPOS sequence extractors
 │   ├── dataset_registry.py       # Dataset path registry and integrity checks
